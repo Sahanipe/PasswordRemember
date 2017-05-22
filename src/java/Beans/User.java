@@ -48,24 +48,25 @@ public class User {
         return password;
     }
 
-    public boolean login(String email,String password) {
+    public boolean login(String email, String password) {
         boolean check = false;
-        try{
-            DBConnection dbconn=new DBConnection();
-            Connection myconnection= dbconn.connection();
-            
-            PreparedStatement ps =myconnection.prepareStatement("select * from user where email=? and password=?");
+        try {
+            DBConnection dbconn = new DBConnection();
+            Connection myconnection = dbconn.connection();
+
+            PreparedStatement ps = myconnection.prepareStatement("select * from user where email=? and password=?");
 
             ps.setString(1, email);
             ps.setString(2, password);
-            
-            ResultSet rs =ps.executeQuery();
+
+            ResultSet rs = ps.executeQuery();
             check = rs.next();
-            
+
             myconnection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        catch(Exception e){e.printStackTrace();}
-        
+
         return check;
     }
 
@@ -75,10 +76,31 @@ public class User {
         return true;
     }
 
-    public User getUser(String email) {
-        User temp = new User();
-        //todo
-        return temp;
+    public void getUser(String email) {
+
+        User user = new User();
+
+        try {
+            DBConnection dbconn = new DBConnection();
+            Connection myconnection = dbconn.connection();
+
+            PreparedStatement ps = myconnection.prepareStatement("select id,name from user where email=?");
+
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                
+                id = rs.getString("id");
+                this.email = email;
+                name = rs.getString("name");
+                
+            }
+
+            myconnection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

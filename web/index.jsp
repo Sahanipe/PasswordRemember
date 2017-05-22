@@ -4,6 +4,7 @@
     Author     : Savinda Keshan
 --%>
 
+<%@page import="Beans.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
@@ -12,10 +13,9 @@
     if(email==null){
         response.sendRedirect("/RememberMe/login.jsp");
     }
-    else{
-        //todo
-        //get user details
-    }
+    
+    User user = new User();
+    user.getUser(email);
 %>
 <html>
     <head>
@@ -23,7 +23,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello! <%out.println(email);%></h1>
+        <h1>Hello! <%out.println(user.getName());%></h1>
         <form action="Logout" method="post">
             <input type="submit" name="logout" value="logout">
         </form>

@@ -3,9 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servletes;
 
-import Beans.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -19,8 +17,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Savinda Keshan
  */
-@WebServlet(name = "Login", urlPatterns = {"/Login"})
-public class Login extends HttpServlet {
+@WebServlet(urlPatterns = {"/Logout"})
+public class Logout extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,25 +32,14 @@ public class Login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try{
-            User user = new User();
-            if(user.login(request.getParameter("email"), request.getParameter("password"))){
-                
-                //create sesstion and set session attribute
-                HttpSession sessionUser = request.getSession();
-                sessionUser.setAttribute("email",request.getParameter("email"));
-                //load home page
-                response.sendRedirect("/RememberMe");
-                
+        try (PrintWriter out = response.getWriter()) {
+            
+            //invalide sesstion
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                session.invalidate();
             }
-            else{
-                //not a valid user
-                response.sendRedirect("/RememberMe/login.jsp");
-            }
-        }
-        finally{
-            out.close();
+            response.sendRedirect("/RememberMe/login.jsp");
         }
     }
 

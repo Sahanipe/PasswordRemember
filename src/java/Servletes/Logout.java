@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package Servletes;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Savinda Keshan
  */
-@WebServlet(urlPatterns = {"/Logout"})
+@WebServlet(name = "Logout", urlPatterns = {"/Logout"})
 public class Logout extends HttpServlet {
 
     /**
@@ -33,12 +34,13 @@ public class Logout extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
+
             //invalide sesstion
             HttpSession session = request.getSession(false);
             if (session != null) {
                 session.invalidate();
             }
+
             response.sendRedirect("/RememberMe/login.jsp");
         }
     }

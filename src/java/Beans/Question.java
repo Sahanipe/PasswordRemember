@@ -8,6 +8,7 @@ public class Question {
 
     String qId;
     String type;
+    String question;
     String answer;
     int qSize;
     int start;
@@ -17,9 +18,10 @@ public class Question {
     String randAnswer;
     String from;
 
-    Question(String qId, String type, String answer, int qSize) {
+    public Question(String qId, String type, String question, String answer, int qSize) {
         this.qId = qId;
         this.type = type;
+        this.question = question;
         this.answer = answer;
         this.qSize = qSize;
     }

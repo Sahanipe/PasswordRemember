@@ -27,5 +27,9 @@
         <form action="Logout" method="post">
             <input type="submit" name="logout" value="logout">
         </form>
+        <br><br>
+        <form action="GeneratePassword" method="post">
+            <input type="submit" name="genPassword" value="gen password">
+        </form>
     </body>
 </html>

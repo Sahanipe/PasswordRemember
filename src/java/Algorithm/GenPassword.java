@@ -54,10 +54,10 @@ public class GenPassword {
             DBConnection dbconn = new DBConnection();
             Connection myconnection = dbconn.connection();
 
-            PreparedStatement ps = myconnection.prepareStatement("SELECT * FROM custom_question WHERE user_id=? ORDER BY RAND() LIMIT ?");
+            PreparedStatement ps = myconnection.prepareStatement("SELECT * FROM custom_question WHERE user_id=? ORDER BY RAND() LIMIT "+num);
 
-            ps.setString(1, userId);
-            ps.setString(2, num + "");
+            ps.setString(1,userId);
+            String pstemp = ps.toString();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Question temp = new Question(rs.getString("id"), "CUSTOM", rs.getString("question"), rs.getString("answer"), Integer.parseInt(rs.getString("answer_length")));
@@ -80,13 +80,12 @@ public class GenPassword {
             DBConnection dbconn = new DBConnection();
             Connection myconnection = dbconn.connection();
 
-            PreparedStatement ps = myconnection.prepareStatement("SELECT general_question_answer.id, general_question_answer.answer, general_question_answer.answer_length, general_question.question FROM general_question_answer INNER JOIN general_question ON general_question_answer.question_id=general_question.id WHERE user_id=? ORDER BY RAND() LIMIT ?");
+            PreparedStatement ps = myconnection.prepareStatement("SELECT general_question_answer.id, general_question_answer.answer, general_question_answer.answer_length, general_question.question FROM general_question_answer INNER JOIN general_question ON general_question_answer.question_id=general_question.id WHERE user_id=? ORDER BY RAND() LIMIT "+num);
 
             ps.setString(1, userId);
-            ps.setString(2, num + "");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Question temp = new Question(rs.getString("id"), "CUSTOM", rs.getString("question"), rs.getString("answer"), Integer.parseInt(rs.getString("answer_length")));
+                Question temp = new Question(rs.getString("id"), "GENERAL", rs.getString("question"), rs.getString("answer"), Integer.parseInt(rs.getString("answer_length")));
                 list.add(temp);
             }
 
@@ -139,6 +138,7 @@ public class GenPassword {
                         password += charString.charAt(index);
                         System.out.println(charString.charAt(index));
                         Question nw = new Question("none", "CHAR", "none", charString.charAt(index) + "", 1);
+                        nw.setRandAnswer(charString.charAt(index) + "");
                         allQs.add(nw);
                     }
                 } else {
@@ -156,6 +156,7 @@ public class GenPassword {
                         password += charString.charAt(index);
                         System.out.println(charString.charAt(index));
                         Question nw = new Question("none", "CHAR", "none", charString.charAt(index) + "", 1);
+                        nw.setRandAnswer(charString.charAt(index) + "");
                         allQs.add(nw);
                     }
                 }
@@ -174,6 +175,7 @@ public class GenPassword {
                     password += charString.charAt(index);
                     System.out.println(charString.charAt(index));
                     Question nw = new Question("none", "CHAR", "none", charString.charAt(index) + "", 1);
+                    nw.setRandAnswer(charString.charAt(index) + "");
                     allQs.add(nw);
                 }
             } else {
@@ -191,6 +193,7 @@ public class GenPassword {
                     password += charString.charAt(index);
                     System.out.println(charString.charAt(index));
                     Question nw = new Question("none", "CHAR", "none", charString.charAt(index) + "", 1);
+                    nw.setRandAnswer(charString.charAt(index) + "");
                     allQs.add(nw);
                 }
             }

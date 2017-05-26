@@ -29,6 +29,7 @@
         </form>
         <br><br>
         <form action="GeneratePassword" method="post">
+            <input type="hidden" name="user_email" value="<%out.print(email);%>">
             <input type="submit" name="genPassword" value="gen password">
         </form>
     </body>

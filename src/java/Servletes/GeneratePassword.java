@@ -37,17 +37,37 @@ public class GeneratePassword extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+
             User user = new User();
-            user.getUser(request.getParameter("email"));
+            user.getUser(request.getParameter("user_email"));
+            String id = user.getName();
+            String email = user.getEmail();
+            String userEmail = request.getParameter("user_email");
 
             GenPassword password = new GenPassword();
             ArrayList<Question> questionList = new ArrayList<Question>();
 
             questionList = password.genPassword(user.getId());
-            out.print("done");
+            String passwordText = "";
+            
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet GetUserPass</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<ol>");
+            for (int i = 0; i < questionList.size(); i++) {
+                Question temp = questionList.get(i);
+                passwordText += temp.getRandAnswer();
+                out.println("<li> <b>question :</b> " + temp.getQuestion() + " <b>answer :</b> " + temp.getAnswer() + " <b>from :</b> " + temp.getFrom() + " <b>order :</b> " + temp.getOrder() + " <b>num of characters :</b> " + temp.getRandSize()+"</li>");
+            }
+            out.println("</ol>");
+            out.println("  password : " + passwordText);
+            out.println("</body>");
+            out.println("</html>");
 
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
     }

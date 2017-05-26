@@ -87,6 +87,7 @@ public class User {
             PreparedStatement ps = myconnection.prepareStatement("select id,name from user where email=?");
 
             ps.setString(1, email);
+            String patos = ps.toString();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 

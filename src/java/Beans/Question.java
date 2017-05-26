@@ -11,8 +11,6 @@ public class Question {
     String question;
     String answer;
     int qSize;
-    int start;
-    int end;
     int randSize;
     String order;
     String randAnswer;
@@ -34,6 +32,10 @@ public class Question {
         return type;
     }
 
+    public String getQuestion() {
+        return question;
+    }
+
     public String getAnswer() {
         return answer;
     }
@@ -46,32 +48,32 @@ public class Question {
         return order;
     }
 
-    public int getStart() {
-        return start;
-    }
-
-    public int getEnd() {
-        return end;
-    }
-
     public String getFrom() {
         return from;
+    }
+
+    public String getqId() {
+        return qId;
+    }
+
+    public int getqSize() {
+        return qSize;
+    }
+
+    public int getRandSize() {
+        return randSize;
     }
 
     public String getRandAnswer() {
         return randAnswer;
     }
 
-    public void setStart(int num) {
-        start = num;
-    }
-
-    public void setEnd(int num) {
-        end = num;
-    }
-
     public void setOrder(String order) {
         order = this.order;
+    }
+
+    public void setRandAnswer(String randAnswer) {
+        this.randAnswer = randAnswer;
     }
 
     public void setRand() {

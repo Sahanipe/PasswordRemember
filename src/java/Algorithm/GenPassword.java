@@ -26,7 +26,7 @@ public class GenPassword {
         return randomNum;
     }
 
-    public int getCustomQsnum(int numAllCustomQs) {
+    public int getCustomQsNum(int numAllCustomQs) {
         if (numAllCustomQs > 4) {
             return getRandNum(2, 4);
         } else if (numAllCustomQs > 0) {
@@ -100,7 +100,7 @@ public class GenPassword {
     public ArrayList<Question> genPassword(String userId) {
 
         int numAllCustomQs = getNumCustomQuestion("0");   //number of all custom questions
-        int numCustomQs = getCustomQsnum(numAllCustomQs); //number of custom qustion going to select
+        int numCustomQs = getCustomQsNum(numAllCustomQs); //number of custom qustion going to select
         int numGenQs = getGenQsNum(4);          //number of general questions going to select
 
         System.out.println("Number of Custom questions : " + numCustomQs);

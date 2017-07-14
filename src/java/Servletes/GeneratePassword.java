@@ -50,12 +50,6 @@ public class GeneratePassword extends HttpServlet {
             questionList = password.genPassword(user.getId());
             String passwordText = "";
             
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet GetUserPass</title>");            
-            out.println("</head>");
-            out.println("<body>");
             out.println("<ol>");
             for (int i = 0; i < questionList.size(); i++) {
                 Question temp = questionList.get(i);
@@ -64,8 +58,6 @@ public class GeneratePassword extends HttpServlet {
             }
             out.println("</ol>");
             out.println("  password : " + passwordText);
-            out.println("</body>");
-            out.println("</html>");
 
         } catch (Exception e) {
             System.out.println(e);

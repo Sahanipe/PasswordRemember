@@ -24,7 +24,6 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css.map" rel="stylesheet">
     </head>
     <body style="background-color: #f7f6f6;">
         <div class="container-fluid">
@@ -56,7 +55,7 @@
                                         <div class="col-md-12">
 
                                             <button type="button" class="btn btn-block" onclick="generatePwd('<%out.print(email);%>')" style="background-color: #69b6ee; color: white;"><b>Generate new password</b></button>
-                                            <button type="button" class="btn btn-block" onclick="addCustomQs();" style="background-color: #489FDF; color: white;"><b>Add new custom question</b></button>
+                                            <button type="button" class="btn btn-block" onclick="addCustomQs('<%out.print(email);%>');" style="background-color: #489FDF; color: white;"><b>Add new custom question</b></button>
 <!--                                            <button type="button" class="btn btn-block" style="background-color: #3786c0; color: white;"><b>Btn</b></button>
                                             <button type="button" class="btn btn-block" style="background-color: #2b79b2; color: white;">Btn</button>-->
                                         </div>
@@ -77,18 +76,19 @@
                                     <div class="row" style="margin-top: 20px; margin-left: 20px; margin-bottom: 20px; padding: 20px; background-color: white; border-bottom-color: gray; border-radius: 5px; box-shadow: 2px 2px 1px #888888;">
                                         <div class="col-md-12" id="displayDiv">
                                             <h3 style="color: #489FDF;">Add new Custom question</h3>
-                                            <form role="form" style="margin-top: 30px; margin-bottom: 20px;">
+                                            <div style="margin-top: 30px; margin-bottom: 20px;">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="customQs" placeholder="Enter custom question.." style="color: #489FDF;"/>
+                                                    <input type="text" class="form-control" id="customQs" placeholder="Enter custom question.." onchange="changeQs();" style="color: #489FDF;"/>
+                                                    <small id="questionHelp" class="form-text text-muted"></small>
                                                 </div>
                                                 <div class="form-group">
                                                     <input type="text" class="form-control" id="customQsAns" placeholder="Enter answer.." onchange="changeAns();" style="color: #489FDF;"/>
                                                     <small id="answerHelp" class="form-text text-muted">Give single word answer.</small>
                                                 </div>
-                                                <button type="submit" class="btn btn-block" style="background-color:#489FDF; color: white;">
+                                                <button class="btn btn-block" onclick="submitCustomQs('<%out.print(email);%>');" style="background-color:#489FDF; color: white;">
                                                     Submit
                                                 </button>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -102,7 +102,7 @@
         </div>
         <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
-        <script src="js/home.js"></script>
+        <script src="js/validate.js"></script>
         <script src="js/home.js"></script>
     </body>
 </html>

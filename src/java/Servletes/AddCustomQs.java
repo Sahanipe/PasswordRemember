@@ -6,8 +6,12 @@
 package Servletes;
 
 import Beans.User;
+import DB.DBConnection;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,8 +23,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Savinda Keshan
  */
-@WebServlet(name = "Login", urlPatterns = {"/Login"})
-public class Login extends HttpServlet {
+@WebServlet(name = "AddCustomQs", urlPatterns = {"/AddCustomQs"})
+public class AddCustomQs extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,25 +38,39 @@ public class Login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            User user = new User();
-            if (user.login(request.getParameter("email"), request.getParameter("password"))) {
+        try (PrintWriter out = response.getWriter()) {
+            String question = request.getParameter("question");
+            String answer = request.getParameter("answer");
 
-                //create sesstion and set session attribute
-                HttpSession sessionUser = request.getSession();
-                sessionUser.setAttribute("email", request.getParameter("email"));
-                //load home page
-//                response.sendRedirect("/RememberMe");
-                out.print("success");
-
+            HttpSession sessionUser = request.getSession(false);
+            String email = (String) sessionUser.getAttribute("email");
+            if (email == null) {
+                response.sendRedirect("/RememberMe/login.jsp");
             } else {
-                //not a valid user
-//                response.sendRedirect("/RememberMe/login.jsp");
-                out.print("fail");
+                User user = new User();
+                user.getUser(email);
+                try {
+                    DBConnection dbconn = new DBConnection();
+                    Connection myconnection = dbconn.connection();
+
+                    PreparedStatement ps = myconnection.prepareStatement("INSERT INTO custom_question (`user_id`, `question`, `answer`, `answer_length`) VALUES (?, ?, ?, ?);");
+
+                    ps.setString(1, user.getId());
+                    ps.setString(2, question);
+                    ps.setString(3, answer);
+                    ps.setString(4, answer.length() + "");
+
+                    out.println(ps.toString());
+                    ps.executeUpdate();
+                    out.print("success");
+
+                    myconnection.close();
+                } catch (Exception e) {
+                    out.print(e.toString());
+                    out.print("fail");
+                    e.printStackTrace();
+                }
             }
-        } finally {
-            out.close();
         }
     }
 

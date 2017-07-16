@@ -13,8 +13,7 @@ function changeAns() {
         document.getElementById("answerHelp").style.color = "red";
         document.getElementById("customQsAns").style.borderColor = "red";
 
-    } else {
-        
+    } else {    
         document.getElementById("answerHelp").innerHTML = "";
         document.getElementById("customQsAns").style.borderColor = "#489FDF";
     }

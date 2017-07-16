@@ -40,15 +40,14 @@ function login() {
             },
             url: "Login",
             success: function (msg) {
-                if(msg=="success"){
+                if (msg == "success") {
                     window.location.href = 'index.jsp';
-                }
-                else{
+                } else {
                     document.getElementById("email").style.borderColor = "red";
                     document.getElementById("password").style.borderColor = "red";
                     document.getElementById("passwordHelp").innerHTML = "Incorrect username or password";
                     document.getElementById("passwordHelp").style.color = "red";
-                    
+
                 }
             }
         });

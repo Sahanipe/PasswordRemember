@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Remember Me - Login</title>
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css" rel="stylesheet">
@@ -48,11 +48,6 @@
                 <div class="col-md-1"></div>
             </div>
         </div>
-<!--        <form action="Login" method="post">
-            <input type="email" name="email" id="email"/>
-            <input type="password" name="password" id="password">
-            <input type="submit" value="Login">
-        </form>-->
         <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/login.js"></script>

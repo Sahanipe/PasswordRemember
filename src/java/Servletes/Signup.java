@@ -5,13 +5,17 @@
  */
 package Servletes;
 
+import DB.DBConnection;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -33,17 +37,32 @@ public class Signup extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String name = request.getParameter("name");
-            String email = request.getParameter("email");
-            String password = request.getParameter("password");
-            String answer1 = request.getParameter("answer1");
-            String answer2 = request.getParameter("answer2");
-            String answer3 = request.getParameter("answer3");
-            String answer4 = request.getParameter("answer4");
-            String answer5 = request.getParameter("answer5");
-            String answer6 = request.getParameter("answer6");
-            
-            out.print("success");
+
+            try {
+                DBConnection dbconn = new DBConnection();
+                Connection myconnection = dbconn.connection();
+
+                PreparedStatement ps = myconnection.prepareStatement("INSERT INTO user (name, email, password) VALUES (?, ?, ?)");
+
+                ps.setString(1, request.getParameter("name"));
+                ps.setString(2, request.getParameter("email"));
+                ps.setString(3, request.getParameter("password"));
+
+                ps.execute();
+
+                //PreparedStatement ps1 = myconnection.prepareStatement("INSERT INTO user (name, email, password) VALUES (?, ?, ?)");
+                myconnection.close();
+                out.print("success");
+                HttpSession sessionUser = request.getSession();
+                sessionUser.setAttribute("email", request.getParameter("email"));
+                
+                
+            } catch (Exception e) {
+                out.print(e.toString());
+                out.print("fail");
+                e.printStackTrace();
+            }
+
         }
     }
 

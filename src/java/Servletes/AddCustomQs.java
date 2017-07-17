@@ -53,18 +53,17 @@ public class AddCustomQs extends HttpServlet {
                     DBConnection dbconn = new DBConnection();
                     Connection myconnection = dbconn.connection();
 
-                    PreparedStatement ps = myconnection.prepareStatement("INSERT INTO custom_question (`user_id`, `question`, `answer`, `answer_length`) VALUES (?, ?, ?, ?);");
+                    PreparedStatement ps = myconnection.prepareStatement("INSERT INTO custom_question (user_id, question, answer, answer_length) VALUES (?, ?, ?, ?)");
 
                     ps.setString(1, user.getId());
                     ps.setString(2, question);
                     ps.setString(3, answer);
-                    ps.setString(4, answer.length() + "");
-
-                    out.println(ps.toString());
-                    ps.executeUpdate();
-                    out.print("success");
-
+                    ps.setInt(4, answer.length());
+                    
+                    ps.execute();
                     myconnection.close();
+                    
+                    out.print("success");
                 } catch (Exception e) {
                     out.print(e.toString());
                     out.print("fail");

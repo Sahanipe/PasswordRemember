@@ -166,6 +166,7 @@ function next3(name, email, password, answer1, answer2, answer3) {
             success: function (msg) {
                 if(msg=="success"){
                     console.log("done");
+                    window.location.href = 'index.jsp';
                 }
             }
         });

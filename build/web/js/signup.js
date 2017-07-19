@@ -85,20 +85,31 @@ function next1() {
         var email = document.getElementById("email").value;
         var password = document.getElementById("password").value;
 
-        var content = '<div class="form-group" style="margin-top: 30px">\n\
-<lable>Question 1</lable>\n\
-<input type="text" class="form-control" id="answer1" placeholder="Enter answer" onchange=\'checkAnswer("answer1","answer1Help")\' style="color: #4e89FDF;"/>\n\
+        //get questions
+        $.ajax({
+            type: "POST",
+            url: "GetGeneralQuestions",
+            success: function (msg) {
+                var questions = JSON.parse(msg);
+
+                var content = '<div class="form-group" style="margin-top: 30px">\n\
+<lable>' + questions[0] + '</lable>\n\
+<input type="text" class="form-control" id="answer1" placeholder="Enter answer" maxlength="30" onchange=\'checkAnswer("answer1","answer1Help")\' style="color: #4e89FDF;"/>\n\
 <small id="answer1Help" class="form-text text-muted"></small>\n\
 </div><div class="form-group">\n\
-<lable>Question 2</lable>\n\
-<input type="text" class="form-control" id="answer2" placeholder="Enter answer" onchange=\'checkAnswer("answer2","answer2Help")\' style="color: #4e89FDF;"/>\n\
+<lable>' + questions[1] + '</lable>\n\
+<input type="text" class="form-control" id="answer2" placeholder="Enter answer" maxlength="30" onchange=\'checkAnswer("answer2","answer2Help")\' style="color: #4e89FDF;"/>\n\
 <small id="answer2Help" class="form-text text-muted"></small>\n\
 </div><div class="form-group">\n\
-<lable>Question 3</lable>\n\
-<input type="text" class="form-control" id="answer3" placeholder="Enter answer" onchange=\'checkAnswer("answer3","answer3Help")\' style="color: #4e89FDF;"/>\n\
+<lable>' + questions[2] + '</lable>\n\
+<input type="text" class="form-control" id="answer3" placeholder="Enter answer" maxlength="30" onchange=\'checkAnswer("answer3","answer3Help")\' style="color: #4e89FDF;"/>\n\
 <small id="answer3Help" class="form-text text-muted"></small>\n\
-</div><button class="btn btn-block" onclick=\'next2("' + name + '","' + email + '","' + password + '");\' style="background-color:#489FDF; color: white;">Next</button>';
-        document.getElementById("signupContent").innerHTML = content;
+</div><button class="btn btn-block" onclick=\'next2("' + name + '","' + email + '","' + password + '","' + questions[3] + '","' + questions[4] + '","' + questions[5] + '");\' style="background-color:#489FDF; color: white;">Next</button>';
+                document.getElementById("signupContent").innerHTML = content;
+            }
+        });
+
+
     }
 }
 
@@ -120,23 +131,23 @@ function checkAnswer(answerId, helpTextId) {
     }
 }
 
-function next2(name, email, password) {
+function next2(name, email, password, question4, question5, question6) {
     if (checkAnswer('answer1', 'answer1Help') && checkAnswer('answer2', 'answer2Help') && checkAnswer('answer3', 'answer3Help')) {
         var answer1 = document.getElementById("answer1").value;
         var answer2 = document.getElementById("answer2").value;
         var answer3 = document.getElementById("answer3").value;
 
         var content = '<div class="form-group" style="margin-top: 30px">\n\
-<lable>Question 4</lable>\n\
-<input type="text" class="form-control" id="answer4" placeholder="Enter answer" onchange=\'checkAnswer("answer4","answer4Help")\' style="color: #4e89FDF;"/>\n\
+<lable>' + question4 + '</lable>\n\
+<input type="text" class="form-control" id="answer4" placeholder="Enter answer" maxlength="30" onchange=\'checkAnswer("answer4","answer4Help")\' style="color: #4e89FDF;"/>\n\
 <small id="answer4Help" class="form-text text-muted"></small>\n\
 </div><div class="form-group">\n\
-<lable>Question 5</lable>\n\
-<input type="text" class="form-control" id="answer5" placeholder="Enter answer" onchange=\'checkAnswer("answer5","answer5Help")\' style="color: #4e89FDF;"/>\n\
+<lable>' + question5 + '</lable>\n\
+<input type="text" class="form-control" id="answer5" placeholder="Enter answer" maxlength="30" onchange=\'checkAnswer("answer5","answer5Help")\' style="color: #4e89FDF;"/>\n\
 <small id="answer5Help" class="form-text text-muted"></small>\n\
 </div><div class="form-group">\n\
-<lable>Question 6</lable>\n\
-<input type="text" class="form-control" id="answer6" placeholder="Enter answer" onchange=\'checkAnswer("answer6","answer6Help")\' style="color: #4e89FDF;"/>\n\
+<lable>' + question6 + '</lable>\n\
+<input type="text" class="form-control" id="answer6" placeholder="Enter answer" maxlength="30" onchange=\'checkAnswer("answer6","answer6Help")\' style="color: #4e89FDF;"/>\n\
 <small id="answer6Help" class="form-text text-muted"></small>\n\
 </div><button class="btn btn-block" onclick=\'next3("' + name + '","' + email + '","' + password + '","' + answer1 + '","' + answer2 + '","' + answer3 + '");\' style="background-color:#489FDF; color: white;">Submit</button>';
         document.getElementById("signupContent").innerHTML = content;
@@ -149,22 +160,23 @@ function next3(name, email, password, answer1, answer2, answer3) {
         var answer4 = document.getElementById("answer4").value;
         var answer5 = document.getElementById("answer5").value;
         var answer6 = document.getElementById("answer6").value;
-        
+
         $.ajax({
             type: "POST",
-            data: {name:name,
-                email:email,
-                password:password,
-                answer1:answer1,
-                answer2:answer2,
-                answer3:answer3,
-                answer4:answer4,
-                answer5:answer5,
-                answer6:answer6
+            data: {name: name,
+                email: email,
+                password: password,
+                answer1: answer1,
+                answer2: answer2,
+                answer3: answer3,
+                answer4: answer4,
+                answer5: answer5,
+                answer6: answer6
             },
             url: "Signup",
             success: function (msg) {
-                if(msg=="success"){
+                console.log(msg);
+                if (msg == "success") {
                     console.log("done");
                     window.location.href = 'index.jsp';
                 }

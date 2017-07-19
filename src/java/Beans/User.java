@@ -4,6 +4,7 @@ import DB.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -70,10 +71,28 @@ public class User {
         return check;
     }
 
-    public boolean register() {
-        //todo
-        //viduni & uthpala
-        return true;
+    public User signUp(String name, String email, String password) {
+        User user = new User();
+        try {
+            DBConnection dbconn = new DBConnection();
+            Connection myconnection = dbconn.connection();
+
+            PreparedStatement ps = myconnection.prepareStatement("INSERT INTO user (name, email, password) VALUES (?, ?, ?)");
+
+            ps.setString(1, name);
+            ps.setString(2, email);
+            ps.setString(3, password);
+
+            ps.execute();
+
+            user.getUser(email);
+
+            myconnection.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 
     public void getUser(String email) {
@@ -90,11 +109,11 @@ public class User {
             String patos = ps.toString();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                
+
                 id = rs.getString("id");
                 this.email = email;
                 name = rs.getString("name");
-                
+
             }
 
             myconnection.close();

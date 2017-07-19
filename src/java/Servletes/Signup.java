@@ -5,11 +5,14 @@
  */
 package Servletes;
 
+import Beans.GeneralQuestionAnswer;
+import Beans.User;
 import DB.DBConnection;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,43 +27,34 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "Signup", urlPatterns = {"/Signup"})
 public class Signup extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
 
-            try {
-                DBConnection dbconn = new DBConnection();
-                Connection myconnection = dbconn.connection();
+            User user = new User();
+            user = user.signUp(request.getParameter("name"), request.getParameter("email"), request.getParameter("password"));
+            if (user.getId() != null) {
 
-                PreparedStatement ps = myconnection.prepareStatement("INSERT INTO user (name, email, password) VALUES (?, ?, ?)");
+                ArrayList<String> answers = new ArrayList<String>();
+                answers.add(request.getParameter("answer1"));
+                answers.add(request.getParameter("answer2"));
+                answers.add(request.getParameter("answer3"));
+                answers.add(request.getParameter("answer4"));
+                answers.add(request.getParameter("answer5"));
+                answers.add(request.getParameter("answer6"));
 
-                ps.setString(1, request.getParameter("name"));
-                ps.setString(2, request.getParameter("email"));
-                ps.setString(3, request.getParameter("password"));
+                GeneralQuestionAnswer gn = new GeneralQuestionAnswer();
 
-                ps.execute();
-
-                //PreparedStatement ps1 = myconnection.prepareStatement("INSERT INTO user (name, email, password) VALUES (?, ?, ?)");
-                myconnection.close();
-                out.print("success");
-                HttpSession sessionUser = request.getSession();
-                sessionUser.setAttribute("email", request.getParameter("email"));
-                
-                
-            } catch (Exception e) {
-                out.print(e.toString());
+                if (gn.addAnswer(user.getId(), answers)) {
+                    out.print("success");
+                    HttpSession sessionUser = request.getSession();
+                    sessionUser.setAttribute("email", request.getParameter("email"));
+                } else {
+                    out.print("fail");
+                }
+            } else {
                 out.print("fail");
-                e.printStackTrace();
             }
 
         }

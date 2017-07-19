@@ -2,7 +2,7 @@ function checkName() {
     var name = document.getElementById("name").value;
 
     if (name.length == 0) {
-        document.getElementById("nameHelp").innerHTML = "Invalid password";
+        document.getElementById("nameHelp").innerHTML = "Invalid password!";
         document.getElementById("nameHelp").style.color = "red";
         document.getElementById("name").style.borderColor = "red";
         return false;
@@ -17,14 +17,29 @@ function checkEmail() {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     if (!re.test(email)) {
-        document.getElementById("emailHelp").innerHTML = "Invalid email address";
+        document.getElementById("emailHelp").innerHTML = "Invalid email address!";
         document.getElementById("emailHelp").style.color = "red";
         document.getElementById("email").style.borderColor = "red";
         return false;
     } else {
-        document.getElementById("emailHelp").innerHTML = "";
-        document.getElementById("email").style.borderColor = "#489FDF";
-        return true;
+        $.ajax({
+            type: "POST",
+            url: "CheckEmail",
+            data: {email: email
+            },
+            success: function (msg) {
+                if (msg == "fail") {
+                    document.getElementById("emailHelp").innerHTML = "Email address is already available!";
+                    document.getElementById("emailHelp").style.color = "red";
+                    document.getElementById("email").style.borderColor = "red";
+                    return false;
+                } else {
+                    document.getElementById("emailHelp").innerHTML = "";
+                    document.getElementById("email").style.borderColor = "#489FDF";
+                    return true;
+                }
+            }
+        });
     }
 }
 function checkPassword() {
@@ -32,7 +47,7 @@ function checkPassword() {
     var repassword = document.getElementById("repassword").value;
 
     if (password.length == 0 && repassword.length > 0) {
-        document.getElementById("passwordHelp").innerHTML = "Invalid password";
+        document.getElementById("passwordHelp").innerHTML = "Invalid password!";
         document.getElementById("passwordHelp").style.color = "red";
         document.getElementById("repasswordHelp").innerHTML = "Passwords are not matched";
         document.getElementById("repasswordHelp").style.color = "red";
@@ -40,7 +55,7 @@ function checkPassword() {
         document.getElementById("repassword").style.borderColor = "red";
         return false;
     } else if (password.length == 0) {
-        document.getElementById("passwordHelp").innerHTML = "Invalid password";
+        document.getElementById("passwordHelp").innerHTML = "Invalid password!";
         document.getElementById("passwordHelp").style.color = "red";
         document.getElementById("password").style.borderColor = "red";
     } else if (password.length > 0 && repassword.length > 0 && password != repassword) {
@@ -61,12 +76,12 @@ function recheckPassword() {
     var repassword = document.getElementById("repassword").value;
 
     if (repassword.length == 0) {
-        document.getElementById("repasswordHelp").innerHTML = "Invalid password";
+        document.getElementById("repasswordHelp").innerHTML = "Invalid password!";
         document.getElementById("repasswordHelp").style.color = "red";
         document.getElementById("repassword").style.borderColor = "red";
         return false;
     } else if (password != repassword) {
-        document.getElementById("repasswordHelp").innerHTML = "Passwords are not matched";
+        document.getElementById("repasswordHelp").innerHTML = "Passwords are not matched!";
         document.getElementById("repasswordHelp").style.color = "red";
         document.getElementById("password").style.borderColor = "red";
         document.getElementById("repassword").style.borderColor = "red";

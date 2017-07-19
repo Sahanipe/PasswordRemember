@@ -73,24 +73,26 @@ public class User {
 
     public User signUp(String name, String email, String password) {
         User user = new User();
-        try {
-            DBConnection dbconn = new DBConnection();
-            Connection myconnection = dbconn.connection();
+        if (user.checkEmail(email)) {
+            try {
+                DBConnection dbconn = new DBConnection();
+                Connection myconnection = dbconn.connection();
 
-            PreparedStatement ps = myconnection.prepareStatement("INSERT INTO user (name, email, password) VALUES (?, ?, ?)");
+                PreparedStatement ps = myconnection.prepareStatement("INSERT INTO user (name, email, password) VALUES (?, ?, ?)");
 
-            ps.setString(1, name);
-            ps.setString(2, email);
-            ps.setString(3, password);
+                ps.setString(1, name);
+                ps.setString(2, email);
+                ps.setString(3, password);
 
-            ps.execute();
+                ps.execute();
 
-            user.getUser(email);
+                user.getUser(email);
 
-            myconnection.close();
+                myconnection.close();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return user;
     }
@@ -121,6 +123,29 @@ public class User {
             e.printStackTrace();
         }
 
+    }
+
+    public boolean checkEmail(String email) {
+        User user = new User();
+        boolean check = true;
+        try {
+            DBConnection dbconn = new DBConnection();
+            Connection myconnection = dbconn.connection();
+
+            PreparedStatement ps = myconnection.prepareStatement("select * from user where email=?");
+
+            ps.setString(1, email);
+            String patos = ps.toString();
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                check = false;
+            }
+
+            myconnection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return check;
     }
 
 }

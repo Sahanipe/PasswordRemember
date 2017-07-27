@@ -3,12 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/ACADAMIC/3rd%20year/1st%20sem/SCS3115%20Professional%20practice/project/RememberMe/src/java/Beans/User.java</file>
+            <file>file:/D:/ACADAMIC/3rd%20year/1st%20sem/SCS3115%20Professional%20practice/project/RememberMe/web/index.jsp</file>
+            <file>file:/D:/ACADAMIC/3rd%20year/1st%20sem/SCS3115%20Professional%20practice/project/RememberMe/src/java/Beans/GeneralQuestionAnswer.java</file>
             <file>file:/D:/ACADAMIC/3rd%20year/1st%20sem/SCS3115%20Professional%20practice/project/RememberMe/src/java/Servletes/Signup.java</file>
             <file>file:/D:/ACADAMIC/3rd%20year/1st%20sem/SCS3115%20Professional%20practice/project/RememberMe/src/java/Servletes/GeneratePassword.java</file>
-            <file>file:/D:/ACADAMIC/3rd%20year/1st%20sem/SCS3115%20Professional%20practice/project/RememberMe/src/java/Beans/Question.java</file>
-            <file>file:/D:/ACADAMIC/3rd%20year/1st%20sem/SCS3115%20Professional%20practice/project/RememberMe/src/java/Beans/GeneralQuestion.java</file>
-            <file>file:/D:/ACADAMIC/3rd%20year/1st%20sem/SCS3115%20Professional%20practice/project/RememberMe/src/java/Servletes/Register.java</file>
+            <file>file:/D:/ACADAMIC/3rd%20year/1st%20sem/SCS3115%20Professional%20practice/project/RememberMe/src/java/Algorithm/GenPassword.java</file>
+            <file>file:/D:/ACADAMIC/3rd%20year/1st%20sem/SCS3115%20Professional%20practice/project/RememberMe/web/js/home.js</file>
+            <file>file:/D:/ACADAMIC/3rd%20year/1st%20sem/SCS3115%20Professional%20practice/project/RememberMe/web/js/signup.js</file>
         </group>
     </open-files>
 </project-private>

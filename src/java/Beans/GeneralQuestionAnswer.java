@@ -78,17 +78,23 @@ public class GeneralQuestionAnswer {
                 DBConnection dbconn = new DBConnection();
                 Connection myconnection = dbconn.connection();
 
+                ArrayList<String> idList = new ArrayList<String>();
                 PreparedStatement ps = myconnection.prepareStatement("select id from general_question");
-                PreparedStatement ps2 = myconnection.prepareStatement("INSERT INTO general_question_answer (question_id, user_id, answer, answer_length) VALUES (?, ?, ?,?),(?, ?, ?,?),(?, ?, ?,?),(?, ?, ?,?),(?, ?, ?,?),(?, ?, ?,?)");
 
                 ResultSet rs = ps.executeQuery();
-                int i = 0;
                 while (rs.next()) {
-                    ps2.setString((i * 4) + 1, rs.getString("id"));
+                    idList.add(rs.getString("id"));
+                }
+
+                PreparedStatement ps2 = myconnection.prepareStatement("INSERT INTO general_question_answer (question_id, user_id, answer, answer_length) VALUES (?, ?, ?,?),(?, ?, ?,?),(?, ?, ?,?),(?, ?, ?,?),(?, ?, ?,?),(?, ?, ?,?)");
+                for (int i = 0; i < 6; i++) {
+                    ps2.setString((i * 4) + 1, idList.get(i));
                     ps2.setString((i * 4) + 2, userId);
                     ps2.setString((i * 4) + 3, answers.get(i));
                     ps2.setInt((i * 4) + 4, answers.get(i).length());
                 }
+
+                String temp = ps2.toString();
 
                 ps2.execute();
 

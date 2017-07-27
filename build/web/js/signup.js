@@ -7,16 +7,19 @@ function checkName() {
         document.getElementById("name").style.borderColor = "red";
         return false;
     } else {
+        console.log('name');
         document.getElementById("nameHelp").innerHTML = "";
         document.getElementById("name").style.borderColor = "#489FDF";
         return true;
     }
 }
 function checkEmail() {
+    console.log('email');
     var email = document.getElementById("email").value;
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     if (!re.test(email)) {
+        console.log('email if');
         document.getElementById("emailHelp").innerHTML = "Invalid email address!";
         document.getElementById("emailHelp").style.color = "red";
         document.getElementById("email").style.borderColor = "red";
@@ -42,7 +45,9 @@ function checkEmail() {
         });
     }
 }
+
 function checkPassword() {
+    console.log('password');
     var password = document.getElementById("password").value;
     var repassword = document.getElementById("repassword").value;
 
@@ -72,6 +77,7 @@ function checkPassword() {
 }
 
 function recheckPassword() {
+    console.log('password');
     var password = document.getElementById("password").value;
     var repassword = document.getElementById("repassword").value;
 
@@ -95,7 +101,9 @@ function recheckPassword() {
 }
 
 function next1() {
-    if (checkName() && checkEmail() && recheckPassword()) {
+    console.log('test');
+    if (checkName() && recheckPassword()) {
+        console.log('true')
         var name = document.getElementById("name").value;
         var email = document.getElementById("email").value;
         var password = document.getElementById("password").value;

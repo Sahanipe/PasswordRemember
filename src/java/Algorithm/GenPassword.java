@@ -14,10 +14,26 @@ import java.util.*;
 
 public class GenPassword {
 
-    final int numGenQuestions = 5;
+    final int numGenQuestions = 6;
 
     public int getNumCustomQuestion(String userId) {
-        return 5;
+        int x = 0;
+        try {
+            DBConnection dbconn = new DBConnection();
+            Connection myconnection = dbconn.connection();
+
+            PreparedStatement ps = myconnection.prepareStatement("select id from custom_question where user_id=?");
+            ps.setString(1, userId);
+
+            ResultSet rs = ps.executeQuery();
+            rs.last();
+            x = rs.getRow();
+
+            myconnection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return x;
     }
 
     public int getRandNum(int min, int max) {
@@ -38,11 +54,11 @@ public class GenPassword {
 
     public int getGenQsNum(int numCustomQs) {
         if (numCustomQs == 0) {
-            return numGenQuestions;
-        } else if (numCustomQs < 3) {
-            return getRandNum(3, 5);
-        } else {
+            return 4;
+        } else if (numCustomQs > 2) {
             return getRandNum(1, 3);
+        } else {
+            return getRandNum(2, 4);
         }
     }
 
@@ -54,9 +70,9 @@ public class GenPassword {
             DBConnection dbconn = new DBConnection();
             Connection myconnection = dbconn.connection();
 
-            PreparedStatement ps = myconnection.prepareStatement("SELECT * FROM custom_question WHERE user_id=? ORDER BY RAND() LIMIT "+num);
+            PreparedStatement ps = myconnection.prepareStatement("SELECT * FROM custom_question WHERE user_id=? ORDER BY RAND() LIMIT " + num);
 
-            ps.setString(1,userId);
+            ps.setString(1, userId);
             String pstemp = ps.toString();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -68,7 +84,7 @@ public class GenPassword {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return list;
     }
 
@@ -80,7 +96,7 @@ public class GenPassword {
             DBConnection dbconn = new DBConnection();
             Connection myconnection = dbconn.connection();
 
-            PreparedStatement ps = myconnection.prepareStatement("SELECT general_question_answer.id, general_question_answer.answer, general_question_answer.answer_length, general_question.question FROM general_question_answer INNER JOIN general_question ON general_question_answer.question_id=general_question.id WHERE user_id=? ORDER BY RAND() LIMIT "+num);
+            PreparedStatement ps = myconnection.prepareStatement("SELECT general_question_answer.id, general_question_answer.answer, general_question_answer.answer_length, general_question.question FROM general_question_answer INNER JOIN general_question ON general_question_answer.question_id=general_question.id WHERE user_id=? ORDER BY RAND() LIMIT " + num);
 
             ps.setString(1, userId);
             ResultSet rs = ps.executeQuery();
@@ -99,12 +115,9 @@ public class GenPassword {
 
     public ArrayList<Question> genPassword(String userId) {
 
-        int numAllCustomQs = getNumCustomQuestion("0");   //number of all custom questions
+        int numAllCustomQs = getNumCustomQuestion(userId);   //number of all custom questions
         int numCustomQs = getCustomQsNum(numAllCustomQs); //number of custom qustion going to select
-        int numGenQs = getGenQsNum(4);          //number of general questions going to select
-
-        System.out.println("Number of Custom questions : " + numCustomQs);
-        System.out.println("Number of General questions : " + numGenQs);
+        int numGenQs = getGenQsNum(numCustomQs);          //number of general questions going to select
 
         ArrayList<Question> customQs = getCustomQs(userId, numCustomQs); //selected custom questions
         ArrayList<Question> genQs = getGenQs(userId, numGenQs);          //selected general questions
@@ -126,36 +139,32 @@ public class GenPassword {
                 if (j < numCustomQs) {
                     Question temp = customQs.get(j);
                     temp.setRand();
-                    password += temp.getRandAnswer();
                     allQs.add(temp);
-                    System.out.println("No : " + i + " Answer : " + temp.getAnswer() + " From : " + temp.getFrom() + " Order : " + temp.getOrder() + " Rand answer : " + temp.getRandAnswer());
                     j++;
                     rand = Math.random();
+
                     if (Math.random() < 0.2) {
                         String charString = "<>?!@#$%^&*";
                         Random random = new Random();
                         int index = random.nextInt(charString.length());
-                        password += charString.charAt(index);
-                        System.out.println(charString.charAt(index));
-                        Question nw = new Question("none", "CHAR", "none", charString.charAt(index) + "", 1);
+
+                        Question nw = new Question("0", "CHAR", "none", charString.charAt(index) + "", 1);
                         nw.setRandAnswer(charString.charAt(index) + "");
                         allQs.add(nw);
                     }
                 } else {
                     Question temp = genQs.get(k);
                     temp.setRand();
-                    password += temp.getRandAnswer();
                     allQs.add(temp);
-                    System.out.println("No : " + i + " Answer : " + temp.getAnswer() + " From : " + temp.getFrom() + " Order : " + temp.getOrder() + " Rand answer : " + temp.getRandAnswer());
                     k++;
                     rand = Math.random();
+
                     if (Math.random() < 0.2) {
                         String charString = "<>?!@#$%^&*";
                         Random random = new Random();
                         int index = random.nextInt(charString.length());
-                        password += charString.charAt(index);
-                        System.out.println(charString.charAt(index));
-                        Question nw = new Question("none", "CHAR", "none", charString.charAt(index) + "", 1);
+
+                        Question nw = new Question("0", "CHAR", "none", charString.charAt(index) + "", 1);
                         nw.setRandAnswer(charString.charAt(index) + "");
                         allQs.add(nw);
                     }
@@ -163,18 +172,16 @@ public class GenPassword {
             } else if (k < numGenQs) {
                 Question temp = genQs.get(k);
                 temp.setRand();
-                password += temp.getRandAnswer();
                 allQs.add(temp);
-                System.out.println("No : " + i + " Answer : " + temp.getAnswer() + " From : " + temp.getFrom() + " Order : " + temp.getOrder() + " Rand answer : " + temp.getRandAnswer());
                 k++;
                 rand = Math.random();
+
                 if (Math.random() < 0.2) {
                     String charString = "<>?!@#$%^&*";
                     Random random = new Random();
                     int index = random.nextInt(charString.length());
-                    password += charString.charAt(index);
-                    System.out.println(charString.charAt(index));
-                    Question nw = new Question("none", "CHAR", "none", charString.charAt(index) + "", 1);
+
+                    Question nw = new Question("0", "CHAR", "none", charString.charAt(index) + "", 1);
                     nw.setRandAnswer(charString.charAt(index) + "");
                     allQs.add(nw);
                 }
@@ -183,16 +190,15 @@ public class GenPassword {
                 temp.setRand();
                 password += temp.getRandAnswer();
                 allQs.add(temp);
-                System.out.println("No : " + i + " Answer : " + temp.getAnswer() + " From : " + temp.getFrom() + " Order : " + temp.getOrder() + " Rand answer : " + temp.getRandAnswer());
                 j++;
                 rand = Math.random();
+
                 if (Math.random() < 0.2) {
                     String charString = "<>?!@#$%^&*";
                     Random random = new Random();
                     int index = random.nextInt(charString.length());
-                    password += charString.charAt(index);
-                    System.out.println(charString.charAt(index));
-                    Question nw = new Question("none", "CHAR", "none", charString.charAt(index) + "", 1);
+
+                    Question nw = new Question("0", "CHAR", "none", charString.charAt(index) + "", 1);
                     nw.setRandAnswer(charString.charAt(index) + "");
                     allQs.add(nw);
                 }

@@ -80,48 +80,48 @@ public class Question {
         if (Math.random() < 0.5) {
             if (Math.random() < 0.5) {
                 if (Math.random() < 0.5) {
-                    order = "ACE";
+                    order = "ascending";
                     randSize = 2;
-                    from = "START";
+                    from = "first";
                     randAnswer = answer.substring(0, 2);
                 } else {
-                    order = "DES";
+                    order = "descending";
                     randSize = 2;
-                    from = "START";
+                    from = "first";
                     randAnswer = new StringBuffer(answer.substring(0, 2)).reverse().toString();
                 }
             } else if (Math.random() < 0.5) {
-                order = "ACE";
+                order = "ascending";
                 randSize = 2;
-                from = "END";
+                from = "last";
                 randAnswer = answer.substring(qSize - 2);
             } else {
                 randSize = 2;
-                order = "DES";
-                from = "END";
+                order = "descending";
+                from = "last";
                 randAnswer = new StringBuffer(answer.substring(qSize - 2)).reverse().toString();
             }
         } else if (Math.random() < 0.5) {
             if (Math.random() < 0.5) {
-                order = "ACE";
+                order = "ascending";
                 randSize = 3;
-                from = "START";
+                from = "first";
                 randAnswer = answer.substring(0, 3);
             } else {
-                order = "DES";
+                order = "descending";
                 randSize = 3;
-                from = "START";
+                from = "first";
                 randAnswer = new StringBuffer(answer.substring(0, 2)).reverse().toString();
             }
         } else if (Math.random() < 0.5) {
-            order = "ACE";
+            order = "ascending";
             randSize = 3;
-            from = "END";
+            from = "last";
             randAnswer = answer.substring(qSize - 3);
         } else {
             randSize = 3;
-            order = "DES";
-            from = "END";
+            order = "descending";
+            from = "last";
             randAnswer = new StringBuffer(answer.substring(qSize - 3)).reverse().toString();
         }
     }

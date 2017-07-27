@@ -51,10 +51,10 @@ public class Signup extends HttpServlet {
                     HttpSession sessionUser = request.getSession();
                     sessionUser.setAttribute("email", request.getParameter("email"));
                 } else {
-                    out.print("fail");
+                    out.print("fail-1");
                 }
             } else {
-                out.print("fail");
+                out.print("fail-2"+user.getId());
             }
 
         }
